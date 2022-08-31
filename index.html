@@ -1,10 +1,29 @@
 <html>
 <head>
 	<script>
-		setTimeout(() => {location.reload();}, 600000);
+		const REFRESH_PAGE_INTERVAL = 30 * 60 * 1000; // 30 minutes
+		const CHANGE_LINK_INTERVAL = 1 * 60 * 1000; // 5 minutes
+		const LINK_LIST = [
+			"https://eu.mixpanel.com/public/PtVsQSE92aqgfm2zDRURFc?embed=true&passcode=z2A)1pI2Xb",
+			"https://docs.google.com/presentation/d/e/2PACX-1vSfLljv1Vrm6NQBm8VD6sM17KEZBkLCMyxqHL4jkdah1Nss1nhLjbd1MsJrupPjNUCgNiJIFN9R5U0l/embed?start=true&loop=true&delayms=30000",
+		];
+
+		let currentLinkIndex = -1;
+		function changeShownLink() {
+			currentLinkIndex = (currentLinkIndex + 1) % LINK_LIST.length;
+			const iframe = document.getElementById("iframe");
+			iframe.src = LINK_LIST[currentLinkIndex];
+		}
+
+		// Refresh the whole page
+		setTimeout(() => location.reload(), REFRESH_PAGE_INTERVAL);
+		// Change shown link
+		setInterval(() => changeShownLink(), CHANGE_LINK_INTERVAL);
+		// Load link on startup
+		window.onload = () => changeShownLink();
 	</script>
 </head>
 <body style="margin: 0px">
-	<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSfLljv1Vrm6NQBm8VD6sM17KEZBkLCMyxqHL4jkdah1Nss1nhLjbd1MsJrupPjNUCgNiJIFN9R5U0l/embed?start=true&loop=true&delayms=30000" frameborder="0" width="100%" height="100%" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+	<iframe id="iframe" src="" frameborder="0" width="100%" height="100%" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </body>
 </html>
